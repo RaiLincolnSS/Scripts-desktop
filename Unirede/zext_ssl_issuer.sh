@@ -1,0 +1,10 @@
+#! /bin/sh
+SERVER=$1
+TIMEOUT=25
+#RETVAL=0
+#TIMESTAMP=`echo | date`
+PORT=$2
+SNI=$3
+echo $SERVER $SNI >> /etc/zabbix/externalscripts/issue_ssl.log
+ISSUER=`openssl s_client -connect ${SERVER}:${PORT} -servername $SNI 2>/dev/null | openssl x509 -noout -issuer 2>/dev/null | grep issuer`
+echo ${ISSUER}
